@@ -1,7 +1,8 @@
-package hello.core;
+package hello.core.scan;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import hello.core.AutoAppConfig;
 import hello.core.member.MemberService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
