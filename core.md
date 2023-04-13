@@ -59,11 +59,49 @@
   - 빈 불러오는 법
     - ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
     - MemberService memberService = applicationContext.getBean("memberService", MemberService.class);
-  -  ApplicationContext 를 스프링 컨테이너라 한다.
+    - .getBean(빈이름, 타입)
+    - 부모 타입을 조회하면, 자식 타입도 다 조회됨.
+  -  ApplicationContext 얘도 인터페이스이며, 얘를 스프링 컨테이너라 한다.
 
 
 #### 스프링 컨테이너와 스프링 빈
+- Test코드 타입 확인
+  - Assertions.assertThat(memberService).isInstanceOf(MemberService.class)
+- Test코드 same과 equal
+  - .isSameAs : 자바코드에서 == 비교
+  - .isEqualTo : 자바코에서 equals 비교
+
 #### 싱글톤 컨테이너
+- 순수한 DI 컨테이너에서는 고객의 요청이 올떄마다 객체를 새로 생성.
+- 매번 객체를 생성하는것은 성능상 너무 안좋아.
+- 하나만 생성되고 공유하도록 설계해야돼. 이걸 싱글톤 패턴이라 함.
+- 싱글톤 패턴
+``` 
+public class SingletonService {
+    private static final SingletonService instance = new SingletonService();
+    public static SingletonService getInstance() {
+        return instance;
+    }
+    private SingletonService() {
+    }
+}
+```
+  - 처음 Java가 실행될때만 static으로 객체가 하나만 생성되고 그 이후에는 생성자를 private으로 막았기에 외부에서 생성이 안되게함.
+  - 그러나 기본적으로 싱글톤 패턴은 테스트코드 작성도 어렵고 수정도 어렵고 구체화를 참조해야되고 이래저래 유연성이 떨어짐
+  - 그러나, 스프링 컨테이너는 이러한 싱글톤 패턴의 단점들을 다 없애주고, 객체를 싱글톤으로 관리.
+- 싱글톤 방식의 주의점
+  - 싱글톤 패턴이든, 스프링 같은 싱글톤 컨테이너를 사용하든, 객체 인스턴스를 하나만 생성해서 공유하는 싱글톤 방식은 여러 클라이언트가 하나의 같은 객체 인스턴스를 공유하기 때문에 싱글톤 객체는 상태를 유지(stateful)하게 설계하면 안된다.
+  - 무상태(stateless)로 설계해야 한다!
+  - 특정 클라이언트에 의존적인 필드가 있으면 안된다.
+  - 특정 클라이언트가 값을 변경할 수 있는 필드가 있으면 안된다!
+  - 가급적 읽기만 가능해야 한다.
+  - 필드 대신에 자바에서 공유되지 않는, 지역변수, 파라미터, ThreadLocal 등을 사용해야 한다.
+  - 스프링 빈의 필드에 공유 값을 설정하면 정말 큰 장애가 발생할 수 있다!!!
+- @Configuration
+  - 구성 클래스 AppConfig에다가 @Configuration을 선언해줘야 생성되고 관리되는 빈 객체들이 싱글톤임이 보장돼.
+  - AppConfig 가 바이트 조작 되어서 만들어진 AppConfig@CGLIB 가 등록되고, 얘의 @Bean 메소드들은 사실 오버라이드 되는데, 스프링 컨테이너에서 객체가 있으면 찾아서 보내주고 없으면 그때서야 생성하는 로직이 들어가 있음.
+
+
 #### 컴포넌트 스캔
 #### 의존관계 자동 주입
 #### 빈 생명주기 콜백
