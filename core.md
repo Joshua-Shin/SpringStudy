@@ -32,6 +32,7 @@
   - 주입은 AppConfig가 해주니까, OrderServiceImpl는 필드로 private final DiscountPolicy discountPolicy; 을 가지게 되어 인터페이스만 의존하게 되게됨 => DIP 지킴
   - 할인 정책을 FixDiscountPolicy에서 RateDiscountPolicy로 바꾸려면 실행영역인 OrderServiceImpl가 아니라 구성영역인 AppConfig에서만 수정하며 됨 => OCP 지킴
   - 관심사를 분리함으로서 SRP도 지키게됨.
+  - final 선언된건 무조건 기본으로 할당을 하든, 생성자로 할당을 하든 해야됨.
 - 제어의 역전 IoC (Inversion of Control)
   -  프로그램의 제어 흐름을 직접 제어하는 것이 아니라 외부에서 관리하는 것. 
   -  AppConfig가 객체 생성해주고 주입해주고 함으로서 제어권을 외부로 둔거.
