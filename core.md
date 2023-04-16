@@ -69,10 +69,10 @@
   - Assertions.assertThat(memberService).isInstanceOf(MemberService.class)
 - Test코드 same과 equal
   - .isSameAs : 자바코드에서 == 비교
-  - .isEqualTo : 자바코에서 equals 비교
+  - .isEqualTo : 자바코드에서 equals 비교
 
 #### 싱글톤 컨테이너
-- 순수한 DI 컨테이너에서는 고객의 요청이 올떄마다 객체를 새로 생성.
+- 순수한 DI 컨테이너에서는 고객의 요청이 올때마다 객체를 새로 생성.
 - 매번 객체를 생성하는것은 성능상 너무 안좋아.
 - 하나만 생성되고 공유하도록 설계해야돼. 이걸 싱글톤 패턴이라 함.
 - 싱글톤 패턴
